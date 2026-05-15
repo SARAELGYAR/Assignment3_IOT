@@ -1,0 +1,42 @@
+Assignment 3 Technical Report — Outline (copy into Word/Google Docs → export PDF)
+==================================================================================
+
+1. TITLE PAGE
+   - Your name(s), student ID(s)
+   - Course: SWAPD 453 — IoT Applications Development
+   - Assignment: TinyML Cosine Wave Predictor
+   - Date
+
+2. PROBLEM STATEMENT (brief)
+   - TinyML on ESP32; approximate y = cos(x), x in [0, 2π]
+   - Pipeline: train → int8 quantize → model.h → on-device inference → Serial Plotter
+
+3. DATA & TRAINING (Section 3.1 — paste from results.txt)
+   - 1000 samples, seed 42, 60/20/20 split, noise σ=0.1
+   - Architecture: Dense(16,relu) → Dense(16,relu) → Dense(1), Adam, MSE, 200 epochs
+   - Screenshot: train_cosine.py (model definition + training loop)
+   - Figure: plots/loss_curves.png
+   - Table: test MSE, MAE (noisy labels); MAE vs clean cos(x)
+   - Figure: plots/float_prediction.png
+
+4. QUANTIZATION (Section 3.2)
+   - Screenshot: converter settings in train_cosine.py (int8, representative dataset)
+   - File sizes: cosine_float.tflite vs cosine_int8.tflite (from results.txt)
+   - Int8 test MSE/MAE
+   - Figure: plots/int8_vs_float.png
+   - Note: model.h generated with xxd or Python (alignas(8) g_model[])
+
+5. ESP32 DEPLOYMENT (Section 3.3)
+   - Board package + TFLite library name/version (from README)
+   - Screenshot: cosine_predictor.ino (resolver, arena, loop quant/dequant)
+   - Screenshot: Serial Monitor at startup (arena used, scales, zero_points, g_model size)
+   - Screenshot: Serial Plotter — predicted vs actual, ≥2 periods
+   - Smallest tensor arena that worked (bytes): _______
+
+6. CONCLUSION
+   - Float and int8 curves track cos(x); quantization trade-off (size vs accuracy)
+
+7. DEMO VIDEO (separate upload)
+   - Training + loss/MAE → quantize + file size → flash ESP32 → Serial Monitor → Plotter
+
+EOF

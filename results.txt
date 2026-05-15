@@ -1,0 +1,28 @@
+SWAPD 453 - Assignment 3 Results
+================================
+TensorFlow version: 2.15.0
+Random seed: 42
+Samples: 1000 (60/20/20 split), noise sigma: 0.1
+Epochs: 200, batch size: 32
+Trainable parameters: 321
+
+Float Keras (test set, noisy labels):
+  MSE = 0.010575
+  MAE = 0.081725
+Float Keras vs clean cos(x) on test x:
+  MAE = 0.023766
+
+TFLite file sizes:
+  cosine_float.tflite = 3180 bytes
+  cosine_int8.tflite  = 2680 bytes
+  Reduction = 15.7%
+
+Int8 TFLite (test set, noisy labels):
+  MSE = 0.010710
+  MAE = 0.081124
+
+Quantization (use in ESP32 sketch / report):
+  Input  scale = 0.024295009672641754, zero_point = -128
+  Output scale = 0.008331063203513622, zero_point = -9
+
+Plots: plots/loss_curves.png, float_prediction.png, int8_vs_float.png
